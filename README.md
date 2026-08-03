@@ -9,6 +9,7 @@
 ## 主要功能
 
 - 计算自然恢复产生的体力及可转换的脑啡肽模块
+- 支持设置自然回体利用率，扣除睡觉、工作或体力达到上限时损失的恢复量
 - 计算每日狂气换体的阶梯成本，并比较不同换体次数的收益
 - 分开记录免费狂气与付费狂气，优先使用免费狂气换体
 - 保护指定数量的总狂气和付费狂气，避免影响通行证等付费项目
@@ -20,6 +21,7 @@
 - 支持填写本周已经使用的镜牢周加成数量
 - 可选计入普通定期维护补偿；默认参考值为300免费狂气，实际以公告为准
 - 计算第7赛季通行证1～120级的固定奖励
+- 按2026年9月17日判断是否跨入第8赛季，并在跨赛季时停止套用第7赛季固定奖励
 - 计算通行证120级后的循环人格碎片箱收益
 - 区分免费通行证与付费通行证收益
 - 计算大月卡、小月卡带来的免费狂气与付费狂气
@@ -46,7 +48,7 @@
 - 是否计入已公布的维护补偿
 - 每天预留给经验本、纺锤本等内容的模块
 - 最多有时间完成多少次镜牢
-- 自然恢复体力的实际利用率
+- 自然恢复体力的实际利用率（0～1）；只有几乎不溢出体力时才使用 `1.0`
 
 ## 使用示例
 
@@ -60,6 +62,7 @@
 - 已购买付费通行证并达到120级
 - 本周尚未使用镜牢周加成
 - 已解锁困难镜牢，由计算器比较一次三加成与三次单加成
+- 预计只能利用85%的自然回体，使用 `0.85` 而不是按全部自然回体计算
 
 运行：
 
@@ -73,6 +76,7 @@ python scripts/optimize_resources.py \
   --paid-lunacy-reserve 1300 \
   --large-monthly-days 30 \
   --small-monthly-days 30 \
+  --natural-utilization 0.85 \
   --paid-pass \
   --xp-to-pass-cap 0 \
   --weekly-bonus-charges-used 0 \
@@ -82,7 +86,7 @@ python scripts/optimize_resources.py \
 在 Windows PowerShell 中也可以写成一行：
 
 ```powershell
-python scripts/optimize_resources.py --days 30 --enkephalin-cap 150 --free-lunacy 5000 --paid-lunacy 1500 --lunacy-reserve 2600 --paid-lunacy-reserve 1300 --large-monthly-days 30 --small-monthly-days 30 --paid-pass --xp-to-pass-cap 0 --weekly-bonus-charges-used 0 --hard-weekly-strategy auto
+python scripts/optimize_resources.py --days 30 --enkephalin-cap 150 --free-lunacy 5000 --paid-lunacy 1500 --lunacy-reserve 2600 --paid-lunacy-reserve 1300 --large-monthly-days 30 --small-monthly-days 30 --natural-utilization 0.85 --paid-pass --xp-to-pass-cap 0 --weekly-bonus-charges-used 0 --hard-weekly-strategy auto
 ```
 
 如果尚未解锁困难镜牢，添加：
@@ -98,6 +102,8 @@ python scripts/optimize_resources.py --days 30 --enkephalin-cap 150 --free-lunac
 ```
 
 维护补偿不是固定周收入。如果官方公告给出的金额不同，可使用 `--maintenance-compensation-amount` 修改金额。
+
+自然回体利用率示例：`1.0` 表示理论上的自然回体全部利用；`0.85` 表示只计入85%；`0.7` 表示只计入70%。如果不确定，建议让 Codex 根据每日溢出时间给出估算，并在结果中明确标注这一假设。
 
 输出内容包括：
 
@@ -161,7 +167,10 @@ git clone https://github.com/leahrwby/limbus-resource-optimizer.git
 
 当前数据快照更新于2026年8月4日，游戏环境为第7赛季。
 
-- 每6分钟自然恢复1点体力，每天最多自然恢复240点体力
+当前计算按照 **2026年9月17日** 作为第8赛季切换日期。跨过该日期的规划会触发警告；在第8赛季完整通行证奖励公布并录入前，计算器不会把第7赛季1～120级固定奖励继续套用到第8赛季。
+
+- 每6分钟自然恢复1点体力，理论上每天最多自然恢复240点体力
+- 实际自然回体会在体力达到上限时停止，因此计算时应乘以 `--natural-utilization`；只有能够及时清体力时才按100%计算
 - 20点体力可以转换为1个脑啡肽模块
 - 1个体力盒恢复60点体力
 - 每日第 `n` 次狂气换体消耗 `26 × n` 狂气，每日最多10次
@@ -180,6 +189,7 @@ git clone https://github.com/leahrwby/limbus-resource-optimizer.git
 - 大月卡立即获得650付费狂气，并在30个登录日每天获得65免费狂气
 - 小月卡立即获得130付费狂气，并在30个登录日每天获得39免费狂气
 - 普通定期维护通常补偿300免费狂气，但不保证每周一定发放，特殊问题的补偿另行计算
+- 第8赛季按2026年9月17日开始计算；跨赛季时需要重新核对通行证、镜牢及人格碎片转换规则
 
 具体数据、来源与更新时间见：
 
