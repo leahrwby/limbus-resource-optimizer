@@ -1,0 +1,38 @@
+{
+  "verified_date": "2026-08-03",
+  "season": 7,
+  "mirror_dungeon": "Mirror of Names and Spiders",
+  "enkephalin": {
+    "natural_per_day": 240,
+    "per_module": 20,
+    "per_box": 60,
+    "refill_cost_step": 26,
+    "max_daily_refills": 10
+  },
+  "mirror_normal": {
+    "module_cost": 5,
+    "base_pass_xp": 30,
+    "weekly_bonus_extra_pass_xp": 15,
+    "weekly_bonus_lunacy": 250,
+    "weekly_charges": 3
+  },
+  "battle_pass": {
+    "xp_per_level": 10,
+    "planned_reward_cap": 120,
+    "free_crates_per_ex_level": 1,
+    "paid_extra_crates_per_ex_level": 2
+  },
+  "egoshard": {
+    "crate_min": 1,
+    "crate_max": 3,
+    "crate_expected": 2,
+    "three_star_identity_cost": 400,
+    "two_star_identity_cost": 150,
+    "ego_cost": 400
+  },
+  "lunacy": {
+    "single_extraction_cost": 130,
+    "decaextraction_cost": 1300,
+    "daily_paid_single_cost": 13
+  }
+}

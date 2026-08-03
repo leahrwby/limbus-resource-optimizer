@@ -1,0 +1,4 @@
+interface:
+  display_name: "Limbus Resource Optimizer"
+  short_description: "Optimize stamina, Lunacy, pass XP, and crates"
+  default_prompt: "Use $limbus-resource-optimizer to find the most efficient daily Enkephalin refill and Mirror Dungeon plan for my account."
