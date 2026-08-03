@@ -1,4 +1,0 @@
-interface:
-  display_name: "Limbus Resource Optimizer"
-  short_description: "Optimize reset-aware stamina, Lunacy, pass XP, and crates"
-  default_prompt: "Use $limbus-resource-optimizer to check the current weekly reset window and find the most efficient Enkephalin refill and Hard/Normal Mirror Dungeon plan for my account."
