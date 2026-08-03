@@ -14,8 +14,10 @@ from zoneinfo import ZoneInfo
 
 DATA_PATH = Path(__file__).resolve().parent.parent / "references" / "game-data.json"
 LUNACY_DATA_PATH = Path(__file__).resolve().parent.parent / "references" / "lunacy-and-monthly-packs.json"
+STORY_DATA_PATH = Path(__file__).resolve().parent.parent / "references" / "story-progression-costs.json"
 DATA = json.loads(DATA_PATH.read_text(encoding="utf-8"))
 LUNACY_DATA = json.loads(LUNACY_DATA_PATH.read_text(encoding="utf-8"))
+STORY_DATA = json.loads(STORY_DATA_PATH.read_text(encoding="utf-8"))
 ENK = DATA["enkephalin"]
 MD = DATA["mirror_normal"]
 HARD = DATA["mirror_hard"]
@@ -24,6 +26,7 @@ SHARD = DATA["egoshard"]
 MONTHLY = LUNACY_DATA["monthly_packs"]
 RESETS = DATA["resets"]
 SEASON_TRANSITION = DATA["season_transition"]
+STORY_CHAPTERS = STORY_DATA["chapters"]
 
 
 @dataclass
@@ -39,6 +42,9 @@ class Plan:
     ending_free_lunacy: int
     ending_paid_lunacy: int
     total_enkephalin: int
+    story_raw_enkephalin_reserved: int
+    story_modules_reserved: int
+    story_equivalent_enkephalin: int
     modules_created: int
     modules_available_for_md: int
     normal_md_runs: int
@@ -114,6 +120,28 @@ def refill_cost_and_distribution(refills: int, days: int) -> tuple[int, str]:
     return cost, distribution
 
 
+def selected_story_cost(args: argparse.Namespace) -> dict:
+    if not args.story_from_id and not args.story_to_id:
+        return {"raw_enkephalin": 0, "modules": 0, "equivalent_enkephalin": 0,
+                "from_id": None, "to_id": None}
+    by_id = {row["id"]: row for row in STORY_CHAPTERS}
+    first = args.story_from_id or STORY_CHAPTERS[0]["id"]
+    last = args.story_to_id or STORY_CHAPTERS[-1]["id"]
+    if first not in by_id or last not in by_id:
+        raise ValueError("Unknown story chapter id; run scripts/story_costs.py --list")
+    start, end = by_id[first]["order"], by_id[last]["order"]
+    if start > end:
+        raise ValueError("story-from-id must not come after story-to-id")
+    rows = [row for row in STORY_CHAPTERS if start <= row["order"] <= end]
+    return {
+        "raw_enkephalin": sum(row["raw_enkephalin"] for row in rows),
+        "modules": sum(row["modules"] for row in rows),
+        "equivalent_enkephalin": sum(row["equivalent_enkephalin"] for row in rows),
+        "from_id": first,
+        "to_id": last,
+    }
+
+
 def evaluate(args: argparse.Namespace, total_refills: int, hard_strategy: str,
              hard_periods: list[tuple[int, int]]) -> Plan | None:
     cost, distribution = refill_cost_and_distribution(total_refills, args.days)
@@ -124,9 +152,13 @@ def evaluate(args: argparse.Namespace, total_refills: int, hard_strategy: str,
         + args.enkephalin_boxes * ENK["per_box"]
         + total_refills * args.enkephalin_cap
     )
-    modules_created, energy_remainder = divmod(total_energy, ENK["per_module"])
+    story = args.story_cost
+    if total_energy < story["raw_enkephalin"]:
+        return None
+    modules_created, energy_remainder = divmod(
+        total_energy - story["raw_enkephalin"], ENK["per_module"])
     reserved = args.daily_reserved_modules * args.days
-    available = max(0, args.modules + modules_created - reserved)
+    available = max(0, args.modules + modules_created - reserved - story["modules"])
     hard_modules = hard_runs = hard_xp = hard_lunacy = hard_charges = 0
     sequence = HARD["separate_single_claims"]["pass_xp_sequence"]
     if hard_strategy != "none":
@@ -192,11 +224,15 @@ def evaluate(args: argparse.Namespace, total_refills: int, hard_strategy: str,
         ending_free_lunacy=ending_free_lunacy,
         ending_paid_lunacy=ending_paid_lunacy,
         total_enkephalin=total_energy,
+        story_raw_enkephalin_reserved=story["raw_enkephalin"],
+        story_modules_reserved=story["modules"],
+        story_equivalent_enkephalin=story["equivalent_enkephalin"],
         modules_created=modules_created,
         modules_available_for_md=available,
         normal_md_runs=normal_runs,
         hard_md_runs=hard_runs,
-        hard_bonus_periods=sum(1 for charges, _ in hard_periods if charges > 0),
+        hard_bonus_periods=(sum(1 for charges, _ in hard_periods if charges > 0)
+                            if hard_strategy != "none" else 0),
         hard_bonus_charges=hard_charges,
         md_runs=runs,
         weekly_bonus_claims=bonus_claims,
@@ -241,6 +277,10 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--maintenance-compensation-amount", type=int,
                    default=RESETS["scheduled_maintenance_compensation_typical_free_lunacy"],
                    help="Free Lunacy per included maintenance gift; default 300")
+    p.add_argument("--story-from-id",
+                   help="First story chapter to reserve; see scripts/story_costs.py --list")
+    p.add_argument("--story-to-id",
+                   help="Last story chapter to reserve; see scripts/story_costs.py --list")
     p.add_argument("--hard-weekly-strategy", choices=("none", "triple", "separate", "auto"),
                    default="auto", help="Triple in one run, three separate single claims, or compare both")
     p.add_argument("--other-lunacy-income", type=int, default=0)
@@ -288,6 +328,10 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
+    try:
+        args.story_cost = selected_story_cost(args)
+    except ValueError as exc:
+        raise SystemExit(str(exc)) from exc
     start = parse_start(args.start_datetime)
     season_status = season_transition_status(start, args.days)
     derived_periods, next_reset = bonus_charge_periods(
@@ -343,6 +387,7 @@ def main() -> None:
             "maintenance_compensation_is_forecast_only": args.maintenance_compensations > 0,
             "season_transition": season_status,
         },
+        "story_progression": args.story_cost,
         "alternatives": [asdict(p) for p in alternatives],
         "hard_weekly_comparison_per_week": {
             "one_triple_claim": {

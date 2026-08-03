@@ -1,6 +1,6 @@
 ---
 name: limbus-resource-optimizer
-description: Optimize Limbus Company Enkephalin, Modules, Free and Paid Lunacy, monthly cards, refill spending, reset-aware Normal and Hard Mirror Dungeon bonuses, Season 7 Pass rewards, recurring Egoshard Crates, and expected Egoshards. Use when a user asks about daily refills, current-week timing, weekly reset, maintenance compensation, how many Hard runs remain, monthly-card value, Paid Lunacy reserves, single-versus-triple Hard claims, Pass rewards, or maximum farming returns under resource and time constraints.
+description: Optimize Limbus Company Enkephalin, Modules, Free and Paid Lunacy, monthly cards, story and Intervallo progression costs, refill spending, reset-aware Normal and Hard Mirror Dungeon bonuses, Season 7 Pass rewards, recurring Egoshard Crates, and expected Egoshards. Use when a user asks how much stamina a Canto or Intervallo needs, how much story progress to reserve, about daily refills, weekly reset, maintenance compensation, Hard runs, monthly-card value, Paid Lunacy reserves, Pass rewards, or maximum farming returns.
 ---
 
 # Limbus Resource Optimizer
@@ -14,14 +14,15 @@ Use the bundled calculator for arithmetic and optimization. Do not estimate mult
 3. Read `references/lunacy-and-monthly-packs.md` when Paid/Free Lunacy, the large monthly card, the small monthly card, daily paid extraction, or Pass purchasing affects the answer.
 4. Read `references/optimization-model.md` when the request asks what is "best", "worthwhile", or "maximum".
 5. Read the Season 8 transition section in `references/game-data.md` whenever the planning horizon reaches September 17, 2026, or the user asks about season-end shard/crate handling.
-6. Collect known inputs. Ask only for missing values that materially change the answer; otherwise use defaults and label them.
-7. Read the current date, weekday, time, and timezone when the user asks what can still be farmed this week. Default to KST rules and convert the reset time to the user's timezone when known.
-8. Assume Hard is unlocked unless the user explicitly says it is not. Allocate available Weekly Bonus charges to Hard first; use Normal only when Hard is unavailable or the user requests it.
-9. Run `scripts/optimize_resources.py` with the user's constraints. Let it derive bonus periods from the current time unless the user explicitly supplies `--hard-weeks`.
-10. For Pass progress below level 120, apply earned XP level by level and list the exact fixed rewards crossed from the Season 7 reward data. Apply paid rewards in addition to free rewards only when the user owns the paid pass.
-11. Convert only XP beyond level 120 into recurring crates: 1 free crate plus 2 additional paid crates per EX level.
-12. Report the recommended plan plus at least two nearby alternatives.
-13. Separate deterministic quantities from expected values. A Nominable Egoshard Crate produces 1-3 shards; use 2 only as an expectation.
+6. Read `references/story-progression-costs.md` when the user asks about clearing a Canto/Intervallo, reaching a target chapter, or reserving stamina for story. Use `references/story-progression-costs.json` and `scripts/story_costs.py` for exact range totals.
+7. Collect known inputs. Ask only for missing values that materially change the answer; otherwise use defaults and label them.
+8. Read the current date, weekday, time, and timezone when the user asks what can still be farmed this week. Default to KST rules and convert the reset time to the user's timezone when known.
+9. Assume Hard is unlocked unless the user explicitly says it is not. Allocate available Weekly Bonus charges to Hard first; use Normal only when Hard is unavailable or the user requests it.
+10. Run `scripts/optimize_resources.py` with the user's constraints. Let it derive bonus periods from the current time unless the user explicitly supplies `--hard-weeks`.
+11. For Pass progress below level 120, apply earned XP level by level and list the exact fixed rewards crossed from the Season 7 reward data. Apply paid rewards in addition to free rewards only when the user owns the paid pass.
+12. Convert only XP beyond level 120 into recurring crates: 1 free crate plus 2 additional paid crates per EX level.
+13. Report the recommended plan plus at least two nearby alternatives.
+14. Separate deterministic quantities from expected values. A Nominable Egoshard Crate produces 1-3 shards; use 2 only as an expectation.
 
 ## Required inputs
 
@@ -44,6 +45,7 @@ Prefer these inputs:
 - Hard strategy: one triple-charge run, three separate single-charge runs, or automatic comparison;
 - daily Modules reserved for Luxcavation or other content;
 - maximum Mirror Dungeon runs the user has time to complete.
+- current and target story chapter when story progress competes with Mirror Dungeon farming.
 
 Use 100% natural-regeneration utilization only when the user avoids capping. Otherwise request or estimate a utilization percentage.
 
@@ -68,6 +70,19 @@ python scripts/optimize_resources.py \
 
 Use `--help` for all inputs. Add `--json` when structured output is useful.
 
+Reserve the exact minimum entry cost from Canto V through Canto VI before optimizing Mirror Dungeon farming:
+
+```bash
+python scripts/optimize_resources.py ... --story-from-id canto-5 --story-to-id canto-6
+```
+
+List chapter ids or calculate a story-only range:
+
+```bash
+python scripts/story_costs.py --list
+python scripts/story_costs.py --from-id canto-7 --to-id canto-9
+```
+
 List exact fixed rewards for a Season 7 level range:
 
 ```bash
@@ -90,6 +105,7 @@ Omit `--paid-pass` for the free track only. Paid results include both free and p
 - Prefer spreading refills across days because the refill price resets daily and rises by 26 Lunacy per use.
 - Do not silently assume 100% natural regeneration. Use 1.0 only when the user reliably avoids the Enkephalin cap; otherwise request an estimate or use a labeled conservative scenario such as 0.85 plus nearby sensitivity cases.
 - Warn when the plan consumes Enkephalin Boxes, dips below the requested reserve, assumes uncapped regeneration, or requires more Mirror Dungeon runs than the user can play.
+- Keep story raw Enkephalin and Story Dungeon Modules separate. Report equivalent Enkephalin for comparison, but never imply that already-converted Modules can pay a raw-Enkephalin story stage.
 - Do not claim that maximum crates equal maximum account value. Story progress, Luxcavation materials, limited events, and time can dominate crate farming.
 
 ## Data maintenance
