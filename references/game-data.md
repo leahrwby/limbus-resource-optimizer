@@ -4,6 +4,19 @@ Verified: 2026-08-04
 Game context: Season 7, Mirror of Names and Spiders  
 Scope: repeatable resource conversion; event rewards and maintenance compensation are excluded unless entered manually.
 
+## Season 8 transition
+
+- Project Moon's currently stated target for Canto X and Season 8 is **2026-09-17**.
+- The earlier 2026 roadmap targeted August; a later short-notice stream moved the target to September 17 so Canto X could release with full voice acting.
+- This is a target date and remains subject to change. An exact Season 8 opening/maintenance-completion time has not been confirmed in the sources used here.
+- For conservative cross-season warnings only, the calculator treats 2026-09-17 06:00 KST as the boundary because that is the normal content reset time. This is not claimed as the official Season 8 opening time.
+- Do not apply Season 7's fixed Pass reward table after this boundary. If a plan reaches the target date, split the report into pre-transition and post-transition periods, flag the uncertain portion, and re-verify the official update notice before advising irreversible shard/crate decisions.
+
+References:
+
+- https://limbuscompany.wiki.gg/wiki/Canto_X:_The_Gaze_Bearing
+- https://limbuscompany.wiki.gg/wiki/Seasons
+
 ## Reset schedule and update compensation
 
 - Daily reset: every day at 06:00 KST (UTC+9).

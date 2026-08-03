@@ -2,6 +2,19 @@
   "verified_date": "2026-08-04",
   "season": 7,
   "mirror_dungeon": "Mirror of Names and Spiders",
+  "season_transition": {
+    "from_season": 7,
+    "to_season": 8,
+    "target_date": "2026-09-17",
+    "official_exact_start_time": null,
+    "status": "configured Season 8 transition date",
+    "warning_boundary_timezone": "Asia/Seoul",
+    "warning_boundary_time": "06:00",
+    "warning_boundary_is_official_start_time": false,
+    "canto": "Canto X: The Gaze Bearing",
+    "source": "https://limbuscompany.wiki.gg/wiki/Canto_X:_The_Gaze_Bearing",
+    "source_note": "Wiki citation points to Project Moon's Short Notice Stream Regarding the Canto 10 Schedule"
+  },
   "resets": {
     "timezone": "Asia/Seoul",
     "daily_time": "06:00",

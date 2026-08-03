@@ -48,4 +48,5 @@ Enumerate `R = 0..10D` and the requested Hard strategy. With `--hard-weekly-stra
 - The model spends all selected Enkephalin Boxes. Set the count to zero to preserve them.
 - The model does not value event shops, Thread, Identity EXP, Manager level-ups, time enjoyment, or gacha exclusivity.
 - A plan crossing a season boundary requires manual adjustment for shard/crate conversion and the new Pass track.
+- The current Season 8 target date is 2026-09-17. Because its exact opening time and reward track are not yet confirmed, crossing this date produces a warning rather than an automatic Season 8 reward calculation.
 - Maximizing boxes is not identical to maximizing total account value. Present the result as a constrained farming optimum.

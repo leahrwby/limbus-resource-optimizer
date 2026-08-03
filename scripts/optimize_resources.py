@@ -23,6 +23,7 @@ PASS = DATA["battle_pass"]
 SHARD = DATA["egoshard"]
 MONTHLY = LUNACY_DATA["monthly_packs"]
 RESETS = DATA["resets"]
+SEASON_TRANSITION = DATA["season_transition"]
 
 
 @dataclass
@@ -79,6 +80,24 @@ def bonus_charge_periods(start: datetime, days: int, used_now: int) -> tuple[lis
         periods.append((3, 0))
         reset += timedelta(days=7)
     return periods, next_reset
+
+
+def season_transition_status(start: datetime, days: int) -> dict:
+    kst = ZoneInfo(SEASON_TRANSITION["warning_boundary_timezone"])
+    hour, minute = map(int, SEASON_TRANSITION["warning_boundary_time"].split(":"))
+    target = datetime.fromisoformat(SEASON_TRANSITION["target_date"]).replace(
+        hour=hour, minute=minute, tzinfo=kst)
+    start_kst = start.astimezone(kst)
+    end_kst = start_kst + timedelta(days=days)
+    return {
+        "season_8_target_date": SEASON_TRANSITION["target_date"],
+        "official_exact_start_time": SEASON_TRANSITION["official_exact_start_time"],
+        "status": SEASON_TRANSITION["status"],
+        "warning_boundary_kst": target.isoformat(),
+        "warning_boundary_is_official_start_time": False,
+        "planning_horizon_crosses_target": start_kst < target < end_kst,
+        "planning_starts_on_or_after_target": start_kst >= target,
+    }
 
 
 def refill_cost_and_distribution(refills: int, days: int) -> tuple[int, str]:
@@ -270,6 +289,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     start = parse_start(args.start_datetime)
+    season_status = season_transition_status(start, args.days)
     derived_periods, next_reset = bonus_charge_periods(
         start, args.days, args.weekly_bonus_charges_used)
     if args.hard_weeks is not None:
@@ -321,6 +341,7 @@ def main() -> None:
             "bonus_charges_available_in_horizon": sum(c for c, _ in derived_periods),
             "hard_unlocked_assumed": not args.no_hard_unlocked,
             "maintenance_compensation_is_forecast_only": args.maintenance_compensations > 0,
+            "season_transition": season_status,
         },
         "alternatives": [asdict(p) for p in alternatives],
         "hard_weekly_comparison_per_week": {
@@ -367,6 +388,11 @@ def main() -> None:
             "small_monthly_daily_free": MONTHLY["small"]["daily_free"],
             "refill_currency_priority": ["free_lunacy", "paid_lunacy"],
         },
+        "warnings": ([
+            "Planning horizon reaches the configured 2026-09-17 Season 8 boundary. "
+            "Do not apply Season 7 fixed Pass rewards after the boundary; use Season 8 data."
+        ] if (season_status["planning_horizon_crosses_target"]
+              or season_status["planning_starts_on_or_after_target"]) else []),
     }
     if args.json:
         print(json.dumps(result, ensure_ascii=False, indent=2))
