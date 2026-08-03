@@ -1,8 +1,22 @@
 # Limbus Company resource data
 
-Verified: 2026-08-03  
+Verified: 2026-08-04  
 Game context: Season 7, Mirror of Names and Spiders  
 Scope: repeatable resource conversion; event rewards and maintenance compensation are excluded unless entered manually.
+
+## Reset schedule and update compensation
+
+- Daily reset: every day at 06:00 KST (UTC+9).
+- Weekly reset: every Thursday at 06:00 KST. This refreshes the three Mirror Dungeon Weekly Bonus charges.
+- Monthly reset: the first day of each month at 06:00 KST.
+- Hong Kong/Beijing time: weekly reset is Thursday 05:00 (UTC+8).
+- Scheduled updates and maintenance are commonly held on Thursday, but their exact times are announcement-specific and are not the Weekly Reset itself.
+- A normal scheduled maintenance notice commonly grants 300 Free Lunacy through the mailbox. Do not treat this as guaranteed weekly income: a week can have no maintenance, and extensions, bugs, or special notices can change the amount and eligibility.
+- Model ordinary maintenance compensation only when the user opts in or supplies the announced number/amount. Keep exceptional bug compensation separate.
+
+Primary reset reference: https://faq.limbuscompany.site/  
+Mirror weekly-charge reference: https://limbuscompany.wiki.gg/wiki/Mirror_Dungeons  
+Representative scheduled-maintenance notice: https://dotgg.gg/limbus-company/march-23th-kst-scheduled-update-notice/
 
 ## Enkephalin
 
@@ -31,6 +45,24 @@ References:
 - https://limbuscompany.wiki.gg/wiki/Mirror_of_Names_and_Spiders
 - https://faq.limbuscompany.site/
 
+## Mirror Dungeon Hard weekly rewards
+
+For a full five-floor Hard clear with all Floors set to Hard:
+
+- Each Weekly Bonus charge costs 6 Modules when claimed in Hard.
+- Claiming all three charges in one Hard run costs 18 Modules and grants 750 Free Lunacy, 225 Pass XP, and 360 Manager XP.
+- Claiming one charge in each of three Hard runs costs 18 Modules total and grants 750 Free Lunacy plus `75 + 80 + 95 = 250` Pass XP.
+- Three separate single-charge claims therefore grant 25 more Pass XP than one triple-charge claim, but require two additional Hard runs.
+- A Hard run without a Weekly Bonus grants the same 30 Pass XP and uses the same 5-Module reward cost as Normal; use Normal in the optimizer for such repeat farming.
+- Do not count the same Weekly Bonus charges again as Normal bonus claims.
+
+Other supported splits, documented for reference but not optimized in this version:
+
+- `2 + 1`: 230 Pass XP total.
+- `1 + 2`: 235 Pass XP total.
+
+Reference: https://limbuscompany.wiki.gg/wiki/Mirror_of_Names_and_Spiders
+
 ## Limbus Pass and crates
 
 - Each Pass level requires 10 Pass XP.
@@ -38,6 +70,7 @@ References:
 - After the planned reward track, each completed EX level grants 1 Nominable Egoshard Crate on the free track.
 - The paid Limbus Pass adds 2 crates per EX level, for 3 total crates per completed EX level.
 - Pre-120 levels have fixed track rewards and must not be treated as recurring crate levels.
+- The complete Season 7 level 1-120 table is stored in `season-7-pass-rewards.json`; use `season-7-pass-rewards.md` for manual inspection.
 
 References:
 
@@ -67,6 +100,8 @@ References:
 - Daily paid single extraction: 13 Paid Lunacy; do not value Free Lunacy as Paid Lunacy.
 - Weekly Normal Mirror Dungeon bonuses can provide up to 750 Free Lunacy across three claims.
 - Monthly Lunacy Supply is optional paid context: 650 Paid Lunacy immediately plus 65 Free Lunacy daily for 30 days. Do not assume ownership unless specified.
+- Monthly Lunacy Batch gives 130 Paid Lunacy immediately plus 39 Free Lunacy daily for 30 login days.
+- See `lunacy-and-monthly-packs.md` and `lunacy-and-monthly-packs.json` for currency restrictions, combined totals, login rules, and duration extensions.
 
 References:
 
@@ -89,3 +124,8 @@ With one Normal Weekly Bonus:
 
 Actual crates are awarded only when a whole level completes; preserve partial Pass XP between calculations.
 
+After Pass level 120, the weekly Hard choices convert as follows:
+
+- One triple-charge Hard run: 18 Modules -> 225 XP -> 22.5 EX levels on average -> 22.5 free-track crates or 67.5 paid-pass crates on average.
+- Three separate single-charge Hard runs: 18 Modules -> 250 XP -> 25 EX levels -> 25 free-track crates or 75 paid-pass crates.
+- Separate claims gain 2.5 additional EX levels: 2.5 more free-track crates or 7.5 more paid-pass crates on average, at the cost of two extra Hard runs.

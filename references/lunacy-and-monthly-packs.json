@@ -1,0 +1,63 @@
+{
+  "verified_date": "2026-08-04",
+  "sources": [
+    "https://faq.limbuscompany.site/",
+    "https://limbuscompany.huijiwiki.com/wiki/%E5%85%85%E5%80%BC%E7%B3%BB%E7%BB%9F",
+    "https://limbuscompany.wiki.gg/wiki/Lunacy"
+  ],
+  "currencies": {
+    "free_lunacy": {
+      "standard_extraction": true,
+      "enkephalin_refill": true,
+      "paid_only_purchases": false
+    },
+    "paid_lunacy": {
+      "standard_extraction": true,
+      "enkephalin_refill": true,
+      "paid_only_purchases": true
+    },
+    "mixed_spending_priority": [
+      "free_lunacy",
+      "paid_lunacy"
+    ]
+  },
+  "paid_only_costs": {
+    "daily_paid_extraction": 13,
+    "limbus_pass": 1300,
+    "pass_special_package": 2700,
+    "pass_special_package_after_pass": 1700,
+    "announcer": 1300,
+    "prior_pass_ego": 2600
+  },
+  "monthly_packs": {
+    "large": {
+      "official_name": "Monthly Lunacy Supply",
+      "upfront_paid": 650,
+      "daily_free": 65,
+      "base_days": 30,
+      "full_free": 1950,
+      "full_total": 2600
+    },
+    "small": {
+      "official_name": "Monthly Lunacy Batch",
+      "upfront_paid": 130,
+      "daily_free": 39,
+      "base_days": 30,
+      "full_free": 1170,
+      "full_total": 1300
+    },
+    "both": {
+      "upfront_paid": 780,
+      "daily_free": 104,
+      "base_days": 30,
+      "full_free": 3120,
+      "full_total": 3900
+    }
+  },
+  "rules": {
+    "daily_reward_requires_login": true,
+    "products_function_separately": true,
+    "repurchase_extends_duration": true,
+    "documented_max_extended_days": 67
+  }
+}

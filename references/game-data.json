@@ -1,7 +1,16 @@
 {
-  "verified_date": "2026-08-03",
+  "verified_date": "2026-08-04",
   "season": 7,
   "mirror_dungeon": "Mirror of Names and Spiders",
+  "resets": {
+    "timezone": "Asia/Seoul",
+    "daily_time": "06:00",
+    "weekly_weekday": "Thursday",
+    "weekly_time": "06:00",
+    "monthly_rule": "first day of each month at 06:00",
+    "scheduled_maintenance_compensation_typical_free_lunacy": 300,
+    "scheduled_maintenance_compensation_is_guaranteed": false
+  },
   "enkephalin": {
     "natural_per_day": 240,
     "per_module": 20,
@@ -15,6 +24,23 @@
     "weekly_bonus_extra_pass_xp": 15,
     "weekly_bonus_lunacy": 250,
     "weekly_charges": 3
+  },
+  "mirror_hard": {
+    "module_cost_per_bonus_charge": 6,
+    "weekly_lunacy_total": 750,
+    "triple_claim": {
+      "runs": 1,
+      "charges": 3,
+      "module_cost": 18,
+      "pass_xp": 225
+    },
+    "separate_single_claims": {
+      "runs": 3,
+      "charges": 3,
+      "module_cost": 18,
+      "pass_xp_sequence": [75, 80, 95],
+      "pass_xp": 250
+    }
   },
   "battle_pass": {
     "xp_per_level": 10,
