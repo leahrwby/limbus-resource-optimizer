@@ -1,0 +1,77 @@
+{
+  "verified_date": "2026-08-04",
+  "season": 7,
+  "mirror_dungeon": "Mirror of Names and Spiders",
+  "season_transition": {
+    "from_season": 7,
+    "to_season": 8,
+    "target_date": "2026-09-17",
+    "official_exact_start_time": null,
+    "status": "configured Season 8 transition date",
+    "warning_boundary_timezone": "Asia/Seoul",
+    "warning_boundary_time": "06:00",
+    "warning_boundary_is_official_start_time": false,
+    "canto": "Canto X: The Gaze Bearing",
+    "source": "https://limbuscompany.wiki.gg/wiki/Canto_X:_The_Gaze_Bearing",
+    "source_note": "Wiki citation points to Project Moon's Short Notice Stream Regarding the Canto 10 Schedule"
+  },
+  "resets": {
+    "timezone": "Asia/Seoul",
+    "daily_time": "06:00",
+    "weekly_weekday": "Thursday",
+    "weekly_time": "06:00",
+    "monthly_rule": "first day of each month at 06:00",
+    "scheduled_maintenance_compensation_typical_free_lunacy": 300,
+    "scheduled_maintenance_compensation_is_guaranteed": false
+  },
+  "enkephalin": {
+    "natural_per_day": 240,
+    "per_module": 20,
+    "per_box": 60,
+    "refill_cost_step": 26,
+    "max_daily_refills": 10
+  },
+  "mirror_normal": {
+    "module_cost": 5,
+    "base_pass_xp": 30,
+    "weekly_bonus_extra_pass_xp": 15,
+    "weekly_bonus_lunacy": 250,
+    "weekly_charges": 3
+  },
+  "mirror_hard": {
+    "module_cost_per_bonus_charge": 6,
+    "weekly_lunacy_total": 750,
+    "triple_claim": {
+      "runs": 1,
+      "charges": 3,
+      "module_cost": 18,
+      "pass_xp": 225
+    },
+    "separate_single_claims": {
+      "runs": 3,
+      "charges": 3,
+      "module_cost": 18,
+      "pass_xp_sequence": [75, 80, 95],
+      "pass_xp": 250
+    }
+  },
+  "battle_pass": {
+    "xp_per_level": 10,
+    "planned_reward_cap": 120,
+    "free_crates_per_ex_level": 1,
+    "paid_extra_crates_per_ex_level": 2
+  },
+  "egoshard": {
+    "crate_min": 1,
+    "crate_max": 3,
+    "crate_expected": 2,
+    "three_star_identity_cost": 400,
+    "two_star_identity_cost": 150,
+    "ego_cost": 400
+  },
+  "lunacy": {
+    "single_extraction_cost": 130,
+    "decaextraction_cost": 1300,
+    "daily_paid_single_cost": 13
+  }
+}
