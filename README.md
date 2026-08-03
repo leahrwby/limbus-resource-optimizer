@@ -107,6 +107,16 @@ git clone https://github.com/YOUR_USERNAME/limbus-resource-optimizer.git
 未来30天至少保留2600狂气，每天最多打3次普牢，应该怎样安排换体？
 ```
 
+## 让 Codex 自动安装
+
+复制下面的提示词并发送给 Codex：
+
+> 请从这个 GitHub 仓库安装 Codex Skill：
+> https://github.com/leahrwby/limbus-resource-optimizer
+>
+> 请检查 `SKILL.md` 和目录结构，将其安装到我的 Codex Skills 目录，
+> 完成后验证 Skill 能否被正常识别。
+
 ## 当前采用的主要规则
 
 当前数据快照更新于2026年8月3日。
