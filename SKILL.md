@@ -14,15 +14,16 @@ Use the bundled calculator for arithmetic and optimization. Do not estimate mult
 3. Read `references/lunacy-and-monthly-packs.md` when Paid/Free Lunacy, the large monthly card, the small monthly card, daily paid extraction, or Pass purchasing affects the answer.
 4. Read `references/optimization-model.md` when the request asks what is "best", "worthwhile", or "maximum".
 5. Read the Season 8 transition section in `references/game-data.md` whenever the planning horizon reaches September 17, 2026, or the user asks about season-end shard/crate handling.
-6. Read `references/story-progression-costs.md` when the user asks about clearing a Canto/Intervallo, reaching a target chapter, or reserving stamina for story. Use `references/story-progression-costs.json` and `scripts/story_costs.py` for exact range totals.
+6. Read `references/story-progression-costs.md` for chapter totals. Use `references/story-stage-costs.json` and `scripts/story_costs.py` whenever the user gives a stage such as `3-5`; interpret it as the first uncleared stage and include its cost.
 7. Collect known inputs. Ask only for missing values that materially change the answer; otherwise use defaults and label them.
 8. Read the current date, weekday, time, and timezone when the user asks what can still be farmed this week. Default to KST rules and convert the reset time to the user's timezone when known.
-9. Assume Hard is unlocked unless the user explicitly says it is not. Allocate available Weekly Bonus charges to Hard first; use Normal only when Hard is unavailable or the user requests it.
+9. Assume Hard is unlocked only when the user gives no story-progress information. If the user names a Canto or story node, infer Normal/Hard availability from `references/mirror-unlocks.md`. Allocate available Weekly Bonus charges to Hard first only when it is available.
 10. Run `scripts/optimize_resources.py` with the user's constraints. Let it derive bonus periods from the current time unless the user explicitly supplies `--hard-weeks`.
 11. For Pass progress below level 120, apply earned XP level by level and list the exact fixed rewards crossed from the Season 7 reward data. Apply paid rewards in addition to free rewards only when the user owns the paid pass.
 12. Convert only XP beyond level 120 into recurring crates: 1 free crate plus 2 additional paid crates per EX level.
 13. Report the recommended plan plus at least two nearby alternatives.
 14. Separate deterministic quantities from expected values. A Nominable Egoshard Crate produces 1-3 shards; use 2 only as an expectation.
+15. When the user asks how many “Identities” the shards can dispense without specifying rarity or cost, use 400 Egoshards per Identity. Override this default only when the user explicitly supplies another cost or asks specifically about a 2-star Identity.
 
 ## Required inputs
 
@@ -46,6 +47,7 @@ Prefer these inputs:
 - daily Modules reserved for Luxcavation or other content;
 - maximum Mirror Dungeon runs the user has time to complete.
 - current and target story chapter when story progress competes with Mirror Dungeon farming.
+- exact current story node when known; if only a Canto is given, report a remaining-cost range instead of pretending the player is at its beginning or end.
 
 Use 100% natural-regeneration utilization only when the user avoids capping. Otherwise request or estimate a utilization percentage.
 
@@ -81,7 +83,17 @@ List chapter ids or calculate a story-only range:
 ```bash
 python scripts/story_costs.py --list
 python scripts/story_costs.py --from-id canto-7 --to-id canto-9
+python scripts/story_costs.py --from-stage 3-5 --to-stage 8-33
 ```
+
+Compare unlocking Hard first with farming Normal now:
+
+```bash
+python scripts/compare_mirror_unlock.py --current-id canto-2 --paid-pass
+python scripts/compare_mirror_unlock.py --current-stage 3-5 --paid-pass
+```
+
+Omit `--paid-pass` for the free track. Add `--chapter-progress 0.4` only when the user supplies a credible within-chapter completion estimate.
 
 List exact fixed rewards for a Season 7 level range:
 
@@ -94,6 +106,10 @@ Omit `--paid-pass` for the free track only. Paid results include both free and p
 ## Interpret the result
 
 - Treat the optimizer's recommendation as maximum recurring crate output under the supplied constraints.
+- Convert expected shards to generic Identity equivalents with `expected shards / 400`. Keep fractional results as progress toward an Identity; do not round them up to a guaranteed acquisition.
+- Current Mirror of Names and Spiders unlocks Normal after clearing Canto II. Hard requires clearing Canto VIII and then completing the current dungeon once in Normal. Merely being in Canto II means Mirror Dungeon may still be locked.
+- Interpret “at 3-5”, “currently on 3-5”, and equivalent wording as stage `3-5` not yet cleared. Include 3-5's first-clear cost. Never round it to the beginning or end of Canto III when exact stage data is available.
+- When the user says only “处于第二章”, first show the Canto-II-to-Normal remaining-cost range, then compare (a) clearing Canto II and spending weekly bonuses in Normal with (b) continuing through Canto VIII, clearing Normal once, and spending later weekly bonuses in Hard. Use `scripts/compare_mirror_unlock.py`; do not declare a winner without a planning horizon and available stamina/time.
 - Always report Hard rewards separately from Normal farming. State whether the plan uses one triple-charge Hard run or three separate single-charge Hard runs.
 - Explain that separate Hard claims grant 25 more Pass XP per week at the same 18-Module and 750-Lunacy total, but require two more Hard runs.
 - Explain the opportunity cost in Lunacy and gacha pulls: 130 Lunacy is one standard extraction and 1300 is one decaextraction.

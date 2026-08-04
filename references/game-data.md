@@ -45,6 +45,15 @@ Lunacy reference: https://limbuscompany.wiki.gg/wiki/Lunacy
 
 ## Mirror Dungeon normal rewards
 
+### Current unlock gates
+
+- Mirror of Names and Spiders Normal unlocks after clearing Canto II: The Unloving.
+- Hard unlocks after clearing Canto VIII: The Surrendered Witnessing and completing the current Mirror Dungeon once in Normal.
+- If no story progress is supplied, the optimizer may default to Hard unlocked. If any current Canto/node is supplied, derive availability from these gates instead.
+- A statement such as “currently in Canto II” does not prove Normal is open. Without an exact node, treat the remaining Canto II cost as a range from 0 to the full chapter cost.
+
+Reference: https://limbuscompany.wiki.gg/wiki/Mirror_of_Names_and_Spiders
+
 - Entering is free; claiming a full Normal clear costs 5 Modules.
 - A full clear without a Weekly Bonus grants 30 Limbus Pass XP and 100 Manager XP.
 - A full Normal clear using one Weekly Bonus grants 45 Pass XP, 250 Free Lunacy, and 100 Manager XP.
@@ -98,6 +107,7 @@ References:
 - A 3-star Identity costs 400 matching Egoshards.
 - A 2-star Identity costs 150 matching Egoshards.
 - An E.G.O costs 400 matching Egoshards.
+- Default generic-Identity valuation: when the user says only “an Identity” or asks how many Identities the farming yield represents, calculate with 400 matching Egoshards per Identity. Use 150 only when the user explicitly asks about a 2-star Identity.
 - At a season change, half of seasonal shards and crates carry forward and the other half converts to Thread or Thread Crates, with the documented rounding behavior. Flag plans crossing a season boundary.
 
 References:

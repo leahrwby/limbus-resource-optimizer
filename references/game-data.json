@@ -65,6 +65,7 @@
     "crate_min": 1,
     "crate_max": 3,
     "crate_expected": 2,
+    "default_identity_cost": 400,
     "three_star_identity_cost": 400,
     "two_star_identity_cost": 150,
     "ego_cost": 400

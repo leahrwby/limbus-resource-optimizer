@@ -375,6 +375,13 @@ def main() -> None:
     result = {
         "objective": "maximize recurring nominable Egoshard crates from Normal and weekly Hard Mirror Dungeon",
         "recommended": asdict(best),
+        "generic_identity_equivalent": {
+            "default_shard_cost_per_identity": SHARD["default_identity_cost"],
+            "expected_complete_identities": best.expected_shards // SHARD["default_identity_cost"],
+            "expected_fractional_identities": best.expected_shards / SHARD["default_identity_cost"],
+            "expected_shards_toward_next_identity": best.expected_shards % SHARD["default_identity_cost"],
+            "note": "Generic Identities default to 400 shards unless the user explicitly specifies another cost.",
+        },
         "schedule": {
             "start": start.isoformat(),
             "start_weekday": start.strftime("%A"),
@@ -427,6 +434,7 @@ def main() -> None:
             "pass_xp_per_level": PASS["xp_per_level"],
             "crates_per_ex_level": crates_per_level,
             "expected_shards_per_crate": SHARD["crate_expected"],
+            "default_shards_per_identity": SHARD["default_identity_cost"],
             "large_monthly_upfront_paid": MONTHLY["large"]["upfront_paid"],
             "large_monthly_daily_free": MONTHLY["large"]["daily_free"],
             "small_monthly_upfront_paid": MONTHLY["small"]["upfront_paid"],

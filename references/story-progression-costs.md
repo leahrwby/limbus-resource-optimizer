@@ -4,7 +4,7 @@ Verified: 2026-08-04
 
 ## Definition
 
-“Minimum clear cost” is the sum of mandatory paid Battle Chapter entry costs on a first successful clear. It assumes no failures, retries, optional farming, or event-shop grind. Free story-only nodes cost zero and are omitted. Story Dungeon costs remain Modules; the equivalent column uses 1 Module = 20 Enkephalin.
+“Minimum clear cost” is the sum of mandatory paid Battle Chapter entry costs on a first successful clear. It assumes no failures, retries, optional farming, event-shop grind, or legacy event Hard reruns. Free story-only nodes cost zero in this chapter summary; their order remains available in `story-stage-costs.json`. Story Dungeon costs remain Modules; the equivalent column uses 1 Module = 20 Enkephalin.
 
 Do not subtract natural regeneration, Manager-level refill, boxes, or gifts from the chapter cost. Those resources reduce the waiting/refill requirement, not the stage entry cost. Preserve the raw Enkephalin/Module split because a player must convert enough Modules before entering a Story Dungeon.
 
@@ -19,10 +19,10 @@ Do not subtract natural regeneration, Manager-level refill, boxes, or gifts from
 | 5 | Intervallo II: S.E.A. | 100 | 3 | 160 |
 | 6 | Canto IV: The Unchanging | 880 | 4 | 960 |
 | 7 | Canto V: The Evil Defining | 460 | 5 | 560 |
-| 8 | Intervallo III-1: Miracle in District 20 | 360 | 2 | 400 |
-| 9 | Intervallo III-2: Yield My Flesh to Claim Their Bones | 400 | 4 | 480 |
+| 8 | Intervallo III-1: Miracle in District 20 | 180 | 1 | 200 |
+| 9 | Intervallo III-2: Yield My Flesh to Claim Their Bones | 200 | 2 | 240 |
 | 10 | Canto VI: The Heartbreaking | 680 | 0 | 680 |
-| 11 | Intervallo IV-1: Timekilling Time | 280 | 4 | 360 |
+| 11 | Intervallo IV-1: Timekilling Time | 140 | 2 | 180 |
 | 12 | Intervallo IV-2: Murder on the WARP Express | 160 | 1 | 180 |
 | 13 | Canto VII: The Dream Ending | 460 | 6 | 580 |
 | 14 | Intervallo V-1: LCB Regular Check-up | 160 | 2 | 200 |
@@ -36,9 +36,9 @@ Do not subtract natural regeneration, Manager-level refill, boxes, or gifts from
 Totals:
 
 - Cantos I-IX: 4,600 equivalent Enkephalin.
-- Listed Intervalli: 2,548 equivalent Enkephalin.
-- All listed content: 7,148 equivalent Enkephalin.
+- Listed Intervalli: 1,928 equivalent Enkephalin.
+- All listed content: 6,528 equivalent Enkephalin.
 
 ## Sources and maintenance
 
-Each row is derived from the `Entry Cost` fields on its Limbus Company Wiki Battle Chapters page. Exact source URLs and paid-entry counts are stored in `story-progression-costs.json`. Re-verify a chapter after balance or story-progression updates.
+Each row is derived from the `Entry Cost` fields on its Limbus Company Wiki Battle Chapters page. Where an old event page contains both Chapter Encounters and Chapter Encounters - Hard, only the normal first-clear route is counted. Exact source URLs and paid-entry counts are stored in `story-progression-costs.json`. Re-verify a chapter after balance or story-progression updates.
